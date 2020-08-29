@@ -1,0 +1,62 @@
+scalar LocalDate
+
+schema {
+	query: Query
+	mutation: Mutation
+	subscription: Subscription
+}
+
+type Query { 
+	routes: [Route]
+	route(flightNumber: String!): Route
+}
+
+type Mutation {
+	createRoute(flightNumber: String!): Route
+	updateRoute(id: ID!, departure: String!): Route
+	deleteRoute(id: ID!): Boolean
+}
+
+type Subscription {
+    registerRouteCreated: Route 
+}
+
+type Route {
+	id: ID!
+	flightNumber: String!
+	departure: String
+	destination: String
+	disabled: Boolean
+	flights: [Flight!]
+	route: Route
+}
+
+type Flight {
+	id: ID!
+	price: Float!
+	route: Route!
+	employees: [Employee!]
+	date: LocalDate!
+}
+
+interface Employee {
+	id: ID!
+	staffNumber: String!
+	lastName: String! 
+	firstName: String! 
+	role: EmployeRole!
+}
+
+type Pilot implements Employee {
+	id: ID!
+	staffNumber: String!
+	lastName: String! 
+	firstName: String! 
+	role: EmployeRole!
+	certificateNumber: String 
+}
+
+enum EmployeRole {
+	PILOT
+	ATTENDANT
+}
