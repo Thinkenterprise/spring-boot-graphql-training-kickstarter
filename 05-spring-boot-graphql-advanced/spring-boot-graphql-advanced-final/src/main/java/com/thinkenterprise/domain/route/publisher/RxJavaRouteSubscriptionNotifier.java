@@ -1,5 +1,6 @@
 package com.thinkenterprise.domain.route.publisher;
 
+import org.reactivestreams.Publisher;
 import org.springframework.stereotype.Component;
 
 import com.thinkenterprise.domain.route.Route;
@@ -19,13 +20,12 @@ import io.reactivex.observables.ConnectableObservable;
 * @author Michael Schäfer
 */
 
-@Component
-public class RouteUpdatePublisher {
+public class RxJavaRouteSubscriptionNotifier implements RouteSubscriptionNotifier {
 
     private final Flowable<Route> publisher;
     private ObservableEmitter<Route> observableEmitter;
 
-    public RouteUpdatePublisher() {
+    public RxJavaRouteSubscriptionNotifier() {
         Observable<Route> stockPriceUpdateObservable = Observable.create(emitter -> {
             observableEmitter=emitter;
         });
@@ -36,12 +36,17 @@ public class RouteUpdatePublisher {
         publisher = connectableObservable.toFlowable(BackpressureStrategy.BUFFER);
     }
 
-    public void emit(Route route) {
-        observableEmitter.onNext(route);
-    }
+	@Override
+	public void emit(Route route) {
+		 observableEmitter.onNext(route);
+		
+	}
 
-    public Flowable<Route> getPublisher() {
-        return publisher;
-    }
-
+	@Override
+	public Publisher<Route> getPublisher() {
+		return publisher;
+	}
+    
+    
+   
 }

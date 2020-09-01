@@ -2,12 +2,14 @@ package com.thinkenterprise.domain.route.resolver.query;
 
 import java.util.List;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
+
 import com.thinkenterprise.domain.route.Route;
 import com.thinkenterprise.domain.route.RouteRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import graphql.kickstart.tools.GraphQLQueryResolver;
 
 /**  
 * GraphQL Spring Boot Samples 
@@ -29,6 +31,7 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 		this.routeRepository=routeRepository;	
 	}
 	
+	@PreAuthorize("hasAuthority('SCOPE_read')")
 	public List<Route> routes() {
 		return routeRepository.findAll();
 	} 

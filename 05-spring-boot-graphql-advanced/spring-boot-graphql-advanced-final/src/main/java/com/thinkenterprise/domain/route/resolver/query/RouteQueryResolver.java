@@ -2,14 +2,15 @@ package com.thinkenterprise.domain.route.resolver.query;
 
 import java.util.List;
 
-import com.coxautodev.graphql.tools.GraphQLResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.thinkenterprise.domain.route.Flight;
 import com.thinkenterprise.domain.route.FlightRepository;
 import com.thinkenterprise.domain.route.Route;
 import com.thinkenterprise.domain.route.RouteRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import graphql.kickstart.tools.GraphQLResolver;
 
 /**  
 * GraphQL Spring Boot Samples 

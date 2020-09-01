@@ -1,12 +1,15 @@
 package com.thinkenterprise.domain.route.resolver.subscription;
 
-import com.coxautodev.graphql.tools.GraphQLSubscriptionResolver;
-import com.thinkenterprise.domain.route.Route;
-import com.thinkenterprise.domain.route.publisher.RouteUpdatePublisher;
 
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.thinkenterprise.domain.route.Route;
+import com.thinkenterprise.domain.route.publisher.RouteSubscriptionNotifier;
+import com.thinkenterprise.domain.route.publisher.RxJavaRouteSubscriptionNotifier;
+
+import graphql.kickstart.tools.GraphQLSubscriptionResolver;
 
 /**  
 * GraphQL Spring Boot Samples 
@@ -20,15 +23,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class RootSubscriptionResolver implements GraphQLSubscriptionResolver {
 
-        RouteUpdatePublisher routeUpdatePublisher;
+        private RouteSubscriptionNotifier routeSubscriptionNotifier;
 
         @Autowired
-        public RootSubscriptionResolver(RouteUpdatePublisher routeUpdatePublisher) {
-                this.routeUpdatePublisher=routeUpdatePublisher;
+        public RootSubscriptionResolver(RouteSubscriptionNotifier routeUpdatePublisher) {
+                this.routeSubscriptionNotifier=routeUpdatePublisher;
         }
 
         public Publisher<Route> registerRouteCreated() {
-                return routeUpdatePublisher.getPublisher();
+                return routeSubscriptionNotifier.getPublisher();
         }
 
 }

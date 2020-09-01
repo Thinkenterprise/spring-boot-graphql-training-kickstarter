@@ -6,7 +6,7 @@ graphql:
     corsEnabled: true
     subscriptions:
       websocket:
-        path: /graphql
+        path: /subscriptions
   tools:
     schemaLocationPattern: "**/*.graphql"
 
@@ -26,6 +26,18 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE 
     platform: h2
+   
+   
+## Profiles 
+  profiles:
+    active: projectReactor
+    
+## Security OAuth2/JWT 
+  security:
+    oauth2:
+      resourceserver:
+        jwt: 
+          public-key-location: public-key.txt
     
 ## Gerneral Spring Configuration 
 server:

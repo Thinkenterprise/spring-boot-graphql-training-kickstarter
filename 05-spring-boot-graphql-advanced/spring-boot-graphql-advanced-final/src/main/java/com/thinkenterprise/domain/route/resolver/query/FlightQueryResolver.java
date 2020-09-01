@@ -5,12 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.thinkenterprise.domain.employee.Employee;
 import com.thinkenterprise.domain.employee.EmployeeRepository;
 import com.thinkenterprise.domain.route.Flight;
 import com.thinkenterprise.domain.route.Route;
 import com.thinkenterprise.domain.route.RouteRepository;
+
+import graphql.kickstart.tools.GraphQLResolver;
 
 
 /**  

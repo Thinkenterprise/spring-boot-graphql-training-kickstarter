@@ -1,13 +1,14 @@
 package com.thinkenterprise.domain.route.resolver.mutation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.thinkenterprise.domain.route.Route;
 import com.thinkenterprise.domain.route.RouteRepository;
-import com.thinkenterprise.domain.route.publisher.RouteUpdatePublisher;
+import com.thinkenterprise.domain.route.publisher.RouteSubscriptionNotifier;
+import com.thinkenterprise.domain.route.publisher.RxJavaRouteSubscriptionNotifier;
+
+import graphql.kickstart.tools.GraphQLMutationResolver;
 
 /**  
 * GraphQL Spring Boot Samples 
@@ -22,18 +23,19 @@ import com.thinkenterprise.domain.route.publisher.RouteUpdatePublisher;
 public class RootMutationResolver implements GraphQLMutationResolver {
 
     private RouteRepository routeRepository;
-    private RouteUpdatePublisher routeUpdatePublisher;
+    private RouteSubscriptionNotifier routeSubscriptionNotifier;
 
     @Autowired
     public RootMutationResolver(RouteRepository routeRepository,
-                                RouteUpdatePublisher routeUpdatePublisher) {
+    							RouteSubscriptionNotifier routeUpdatePublisher) {
         this.routeRepository=routeRepository;	
-        this.routeUpdatePublisher=routeUpdatePublisher;
+        this.routeSubscriptionNotifier=routeUpdatePublisher;
     }
  
     public Route createRoute(String flightNumber) {
         Route route = new Route(flightNumber);
         routeRepository.save(route);
+        routeSubscriptionNotifier.emit(route);
         return route; 
     }
 
@@ -41,6 +43,7 @@ public class RootMutationResolver implements GraphQLMutationResolver {
         Route route = routeRepository.findById(id).get();
         route.setDeparture(departure);
         routeRepository.save(route);
+        routeSubscriptionNotifier.emit(route);
         return route;
     }
 
@@ -49,6 +52,7 @@ public class RootMutationResolver implements GraphQLMutationResolver {
         route.setDeparture(input.getDeparture());
         route.setDestination(input.getDestination());
         routeRepository.save(route);
+        routeSubscriptionNotifier.emit(route);
         return route;
     }
 

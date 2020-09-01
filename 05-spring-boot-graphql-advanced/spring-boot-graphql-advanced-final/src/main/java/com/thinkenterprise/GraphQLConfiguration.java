@@ -1,10 +1,12 @@
 package com.thinkenterprise;
 
-import com.coxautodev.graphql.tools.SchemaParserDictionary;
-import com.thinkenterprise.domain.employee.Pilot;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.thinkenterprise.domain.employee.Pilot;
+
+import graphql.kickstart.tools.SchemaParserDictionary;
 
 /**  
 * GraphQL Spring Boot Samples 
