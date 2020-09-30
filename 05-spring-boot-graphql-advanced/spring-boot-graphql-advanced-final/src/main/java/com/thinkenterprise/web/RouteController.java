@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.thinkenterprise.domain.route.Route;
-import com.thinkenterprise.domain.route.RouteRepository;
+import com.thinkenterprise.domain.route.jpa.model.Route;
+import com.thinkenterprise.domain.route.jpa.model.RouteRepository;
 
 
 

@@ -1,3 +1,7 @@
+# Custom Properties 
+route:
+  exception: false
+
 #Configure GraphQL 
 graphql:
   servlet:
@@ -7,6 +11,7 @@ graphql:
     subscriptions:
       websocket:
         path: /subscriptions
+    exception-handlers-enabled: true
   tools:
     schemaLocationPattern: "**/*.graphql"
 
