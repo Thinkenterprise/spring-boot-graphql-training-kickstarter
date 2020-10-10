@@ -1,7 +1,10 @@
 package com.thinkenterprise.domain.route.graphql.resolver.mutation;
 
+import javax.validation.constraints.NotBlank;
+
 public class RouteInput {
     
+	@NotBlank
     String departure;
     String destination;
     

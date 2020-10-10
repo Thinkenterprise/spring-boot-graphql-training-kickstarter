@@ -1,14 +1,14 @@
 package com.thinkenterprise.domain.route.graphql.resolver.mutation;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.thinkenterprise.domain.route.graphql.publisher.RouteSubscriptionNotifier;
-import com.thinkenterprise.domain.route.graphql.publisher.RxJavaRouteSubscriptionNotifier;
-import com.thinkenterprise.domain.route.graphql.resolver.subscription.RootSubscriptionResolver;
 import com.thinkenterprise.domain.route.jpa.model.Route;
-import com.thinkenterprise.domain.route.jpa.model.RouteRepository;
+import com.thinkenterprise.domain.route.jpa.model.repository.RouteRepository;
 
 import graphql.kickstart.tools.GraphQLMutationResolver;
 
@@ -22,6 +22,7 @@ import graphql.kickstart.tools.GraphQLMutationResolver;
 */
 
 @Service(value = RootMutationResolver.ROOT_MUTATION_RESOLVER)
+@Validated
 public class RootMutationResolver implements GraphQLMutationResolver {
 	
 	static final String ROOT_MUTATION_RESOLVER = "com.thinkenterprise.domain.route.graphql.resolver.mutation.RootMutationResolver";
@@ -51,10 +52,10 @@ public class RootMutationResolver implements GraphQLMutationResolver {
         return route;
     }
 
-    public Route updateRouteWithRouteInput(Long id, RouteInput input) {
+    public Route updateRouteWithRouteInput(Long id, @Valid RouteInput routeInput) {
         Route route = routeRepository.findById(id).get();
-        route.setDeparture(input.getDeparture());
-        route.setDestination(input.getDestination());
+        route.setDeparture(routeInput.getDeparture());
+        route.setDestination(routeInput.getDestination());
         routeRepository.save(route);
         routeSubscriptionNotifier.emit(route);
         return route;

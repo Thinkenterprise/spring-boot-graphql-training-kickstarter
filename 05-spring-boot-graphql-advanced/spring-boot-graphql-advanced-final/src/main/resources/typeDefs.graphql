@@ -15,10 +15,16 @@ type Mutation {
 	createRoute(flightNumber: String!): Route
 	updateRoute(id: ID!, departure: String!): Route
 	deleteRoute(id: ID!): Boolean
+	updateRouteWithRouteInput(id: ID!, routeInput: RouteInput) : Route
 }
 
 type Subscription {
     registerRouteCreated: Route 
+}
+
+input RouteInput {
+	departure: String
+	destination: String
 }
 
 type Route {
@@ -37,6 +43,7 @@ type Flight {
 	route: Route!
 	employees: [Employee!]
 	date: LocalDate!
+	discount: Float!
 }
 
 interface Employee {

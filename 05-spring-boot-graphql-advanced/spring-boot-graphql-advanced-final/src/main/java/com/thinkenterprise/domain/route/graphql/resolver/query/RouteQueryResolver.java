@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.thinkenterprise.domain.route.jpa.model.Flight;
-import com.thinkenterprise.domain.route.jpa.model.FlightRepository;
 import com.thinkenterprise.domain.route.jpa.model.Route;
-import com.thinkenterprise.domain.route.jpa.model.RouteRepository;
+import com.thinkenterprise.domain.route.jpa.model.repository.FlightRepository;
+import com.thinkenterprise.domain.route.jpa.model.repository.RouteRepository;
 
 import graphql.kickstart.tools.GraphQLResolver;
 

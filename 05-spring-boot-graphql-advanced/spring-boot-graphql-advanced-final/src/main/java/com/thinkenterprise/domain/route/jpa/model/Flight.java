@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.thinkenterprise.domain.employee.jpa.model.Employee;
 import com.thinkenterprise.domain.jpa.AbstractEntity;
@@ -15,7 +16,7 @@ import com.thinkenterprise.domain.jpa.AbstractEntity;
 /**  
 * GraphQL Spring Boot Samples 
 * Design and Development by Michael Schäfer 
-* Copyright (c) 2019 
+* Copyright (c) 2020 
 * All Rights Reserved.
 * 
 * @author Michael Schäfer
@@ -25,13 +26,16 @@ import com.thinkenterprise.domain.jpa.AbstractEntity;
 public class Flight extends AbstractEntity {
 
 	private double price;
-	
 	private LocalDate date;
+	
+	@Transient
+	private Float discount;
 
+	
 	@ManyToOne
 	private Route route;
 
-	@OneToMany(mappedBy="flight",cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="flight",cascade=CascadeType.REMOVE)
 	private Set<Employee> employees;
 
 
@@ -77,6 +81,14 @@ public class Flight extends AbstractEntity {
 	
 	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+	
+	public Float getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Float discount) {
+		this.discount = discount;
 	}
 
 }

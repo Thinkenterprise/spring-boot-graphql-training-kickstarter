@@ -2,19 +2,23 @@ package com.thinkenterprise.domain.route.graphql.resolver.query;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.thinkenterprise.domain.route.graphql.context.CustomGraphQLServletContext;
+import com.thinkenterprise.domain.route.graphql.context.CustomGraphQLServletContextBuilder;
 import com.thinkenterprise.domain.route.graphql.error.RouteGraphQLError;
 import com.thinkenterprise.domain.route.jpa.model.Route;
 import com.thinkenterprise.domain.route.jpa.model.RouteException;
-import com.thinkenterprise.domain.route.jpa.model.RouteRepository;
+import com.thinkenterprise.domain.route.jpa.model.repository.RouteRepository;
 
 import graphql.GraphQLError;
 import graphql.kickstart.tools.GraphQLQueryResolver;
+import graphql.schema.DataFetchingEnvironment;
 
 /**  
 * GraphQL Spring Boot Samples 
@@ -30,8 +34,9 @@ import graphql.kickstart.tools.GraphQLQueryResolver;
 public class RootQueryResolver implements GraphQLQueryResolver {
 	
 	static final String ROOT_QUERY_RESOLVER = "com.thinkenterprise.domain.route.graphql.resolver.query.RootQueryResolver";
-
-	private RouteRepository routeRepository;
+	protected static Logger log = LoggerFactory.getLogger(RootQueryResolver.class);
+	
+	private RouteRepository routeRepository; 
 	
 	@Value("${route.exception}")
 	private Boolean exception;
@@ -41,8 +46,13 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 		this.routeRepository=routeRepository;	
 	}
 	
-	@PreAuthorize("hasAuthority('SCOPE_read')")
-	public List<Route> routes() {
+	//@PreAuthorize("hasAuthority('SCOPE_read')")
+	public List<Route> routes(DataFetchingEnvironment dataFetchingEnvironment) {
+		
+		CustomGraphQLServletContext customGraphQLServletContext = (CustomGraphQLServletContext) dataFetchingEnvironment.getContext();
+		
+		log.debug(customGraphQLServletContext.getUserId());
+		
 		if(!exception)
 			return routeRepository.findAll();
 		else 
