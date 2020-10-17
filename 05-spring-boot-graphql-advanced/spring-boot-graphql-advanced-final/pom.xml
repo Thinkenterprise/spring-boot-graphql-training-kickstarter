@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.thinkenterprise</groupId>
-	<artifactId>s9-spring-boot-graphql-complete-template</artifactId>
+	<artifactId>spring-boot-graphql-training-complete</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Graphql Spring Boot Showcase</name>
+	<name>Graphql Spring Boot Training</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -22,9 +22,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<kotlin.version>1.3.70</kotlin.version>
-		<LIB_GRAPHQL_SERVLET_VER>9.3.0</LIB_GRAPHQL_SERVLET_VER>
 	</properties>
-
 
 	<dependencies>
 
@@ -44,17 +42,18 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
-
-
-
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
-			</dependency> <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-oauth2-resource-server</artifactId> 
-			</dependency> -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
@@ -108,7 +107,6 @@
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-core</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<build>

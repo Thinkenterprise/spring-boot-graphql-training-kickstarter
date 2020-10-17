@@ -30,12 +30,11 @@ spring:
       path: /h2-console    
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE 
-    platform: h2
    
    
-## Profiles 
+## Profiles Supported reactor, security, token, basic
   profiles:
-    active: projectReactor
+    active: projectReactor, security, token, context 
     
 ## Security OAuth2/JWT 
   security:

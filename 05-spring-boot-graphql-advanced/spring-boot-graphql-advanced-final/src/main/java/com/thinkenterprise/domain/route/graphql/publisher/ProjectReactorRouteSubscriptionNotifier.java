@@ -8,12 +8,19 @@ import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 
-public class ProjectReactorRouteSubscriptionNotifier implements RouteSubscriptionNotifier {
+/**  
+* GraphQL Spring Boot Training 
+* Design and Development by Michael Schäfer 
+* Copyright (c) 2020 
+* All Rights Reserved.
+* 
+* @author Michael Schäfer
+*/
 
+public class ProjectReactorRouteSubscriptionNotifier implements RouteSubscriptionNotifier {
 	
 	private Flux<Route> publisher;
 	private FluxSink<Route> emitter;
-	
 	
 	public ProjectReactorRouteSubscriptionNotifier() {
 		

@@ -1,6 +1,7 @@
 package com.thinkenterprise.domain.route.graphql.context;
 
 import java.util.List;
+
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,6 +14,16 @@ import org.dataloader.DataLoaderRegistry;
 
 import graphql.kickstart.servlet.context.DefaultGraphQLServletContext;
 import graphql.kickstart.servlet.context.GraphQLServletContext;
+
+
+/**  
+* GraphQL Spring Boot Training 
+* Design and Development by Michael Schäfer 
+* Copyright (c) 2020 
+* All Rights Reserved.
+* 
+* @author Michael Schäfer
+*/
 
 public class CustomGraphQLServletContext implements GraphQLServletContext {
 

@@ -7,25 +7,25 @@ import graphql.language.SourceLocation;
 import java.util.List;
 
 /**  
-* GraphQL Spring Boot Samples 
-* Design and Development by msg Applied Technology Research
-* Copyright (c) 2018 msg systems ag (http://www.msg-systems.com/)
+* GraphQL Spring Boot Training 
+* Design and Development by Michael Schäfer 
+* Copyright (c) 2020 
 * All Rights Reserved.
 * 
 * @author Michael Schäfer
 */
 
-public class RouteGraphQLError implements GraphQLError {
+public class CustomGraphQLError implements GraphQLError {
    
     private static final long serialVersionUID = -6780513777815584903L;
 
     private String message;
 
-    public RouteGraphQLError() {
+    public CustomGraphQLError() {
         super();
     } 
 
-    public RouteGraphQLError(String message) {
+    public CustomGraphQLError(String message) {
         this.message = message;
     }
 

@@ -19,9 +19,9 @@ import graphql.schema.DataFetchingEnvironment;
 
 
 /**  
-* GraphQL Spring Boot Samples 
+* GraphQL Spring Boot Training 
 * Design and Development by Michael Schäfer 
-* Copyright (c) 2019 
+* Copyright (c) 2020 
 * All Rights Reserved.
 * 
 * @author Michael Schäfer
@@ -54,17 +54,18 @@ public class FlightQueryResolver implements GraphQLResolver<Flight> {
     	return routeRepository.findById(flight.getRoute().getId()).get();
     }
     
+    /* Profile performance
     public CompletableFuture<Float> discount(Flight flight, DataFetchingEnvironment dataFetchingEnvironment) { 
   
     	DataLoader<Long,Float> discoutDataLoader = dataFetchingEnvironment.getDataLoader("discount");
     	return discoutDataLoader.load(flight.getId());
     	
     } 
+    */ 
     
-    /* discount without DataLoader
-    public Float discount(Flight flight) { 
-    	
+    /* Profile performance
+    public Float discount(Flight flight) {  	
     	return discountService.getDiscount(flight.getId());
     } 
-    */
+   */
 }

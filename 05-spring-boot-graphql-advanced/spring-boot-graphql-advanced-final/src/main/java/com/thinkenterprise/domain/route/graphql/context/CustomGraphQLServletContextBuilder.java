@@ -18,6 +18,15 @@ import graphql.kickstart.execution.context.GraphQLContext;
 import graphql.kickstart.servlet.context.DefaultGraphQLServletContext;
 import graphql.kickstart.servlet.context.GraphQLServletContextBuilder;
 
+/**  
+* GraphQL Spring Boot Training 
+* Design and Development by Michael Schäfer 
+* Copyright (c) 2020 
+* All Rights Reserved.
+* 
+* @author Michael Schäfer
+*/
+
 public class CustomGraphQLServletContextBuilder implements GraphQLServletContextBuilder {
 
 	protected static Logger log = LoggerFactory.getLogger(CustomGraphQLServletContextBuilder.class);
@@ -55,8 +64,7 @@ public class CustomGraphQLServletContextBuilder implements GraphQLServletContext
 	}
 	
 	@Override
-	public GraphQLContext build() {
-		
+	public GraphQLContext build() {	
 		throw new IllegalStateException("Unsupported non network build method called in CustomGraphQLServletContextBuilder");
 	}
 	
@@ -64,10 +72,4 @@ public class CustomGraphQLServletContextBuilder implements GraphQLServletContext
 		return new DataLoaderRegistry().register("discount", DataLoader.newDataLoader(new DiscountBatchLoader(discountService)));
 	}
 	
-	
-	
-	
-	
-	
-
 }

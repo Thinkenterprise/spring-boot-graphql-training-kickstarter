@@ -9,6 +9,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+
+/**  
+* GraphQL Spring Boot Training 
+* Design and Development by Michael Schäfer 
+* Copyright (c) 2020 
+* All Rights Reserved.
+* 
+* @author Michael Schäfer
+*/
+
+
+
 @Service
 public class DiscountService {
 	

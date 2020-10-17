@@ -5,6 +5,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**  
+* GraphQL Spring Boot Training 
+* Design and Development by Michael Schäfer 
+* Copyright (c) 2020 
+* All Rights Reserved.
+* 
+* @author Michael Schäfer
+*/
+
 @MappedSuperclass
 public class AbstractEntity {
 	

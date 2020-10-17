@@ -10,9 +10,9 @@ import com.thinkenterprise.domain.route.jpa.model.Flight;
 import com.thinkenterprise.domain.route.jpa.model.Route;
 
 /**  
-* GraphQL Spring Boot Samples 
+* GraphQL Spring Boot Training 
 * Design and Development by Michael Schäfer 
-* Copyright (c) 2019 
+* Copyright (c) 2020 
 * All Rights Reserved.
 * 
 * @author Michael Schäfer

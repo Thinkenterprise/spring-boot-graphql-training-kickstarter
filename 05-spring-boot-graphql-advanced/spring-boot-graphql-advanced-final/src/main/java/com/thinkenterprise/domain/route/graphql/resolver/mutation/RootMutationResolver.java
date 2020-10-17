@@ -13,19 +13,18 @@ import com.thinkenterprise.domain.route.jpa.model.repository.RouteRepository;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 
 /**  
-* GraphQL Spring Boot Samples 
+* GraphQL Spring Boot Training 
 * Design and Development by Michael Schäfer 
-* Copyright (c) 2019 
+* Copyright (c) 2020 
 * All Rights Reserved.
 * 
 * @author Michael Schäfer
 */
 
-@Service(value = RootMutationResolver.ROOT_MUTATION_RESOLVER)
+@Service
 @Validated
 public class RootMutationResolver implements GraphQLMutationResolver {
 	
-	static final String ROOT_MUTATION_RESOLVER = "com.thinkenterprise.domain.route.graphql.resolver.mutation.RootMutationResolver";
 
     private RouteRepository routeRepository;
     private RouteSubscriptionNotifier routeSubscriptionNotifier;

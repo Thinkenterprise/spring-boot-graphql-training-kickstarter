@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.thinkenterprise.domain.route.exception.RouteException;
 import com.thinkenterprise.domain.route.graphql.context.CustomGraphQLServletContext;
-import com.thinkenterprise.domain.route.graphql.context.CustomGraphQLServletContextBuilder;
-import com.thinkenterprise.domain.route.graphql.error.RouteGraphQLError;
+import com.thinkenterprise.domain.route.graphql.error.CustomGraphQLError;
 import com.thinkenterprise.domain.route.jpa.model.Route;
-import com.thinkenterprise.domain.route.jpa.model.RouteException;
 import com.thinkenterprise.domain.route.jpa.model.repository.RouteRepository;
 
 import graphql.GraphQLError;
@@ -21,19 +20,17 @@ import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.schema.DataFetchingEnvironment;
 
 /**  
-* GraphQL Spring Boot Samples 
+* GraphQL Spring Boot Training 
 * Design and Development by Michael Schäfer 
-* Copyright (c) 2019 
+* Copyright (c) 2020 
 * All Rights Reserved.
 * 
 * @author Michael Schäfer
 */
 
-
-@Component(RootQueryResolver.ROOT_QUERY_RESOLVER)
+@Component
 public class RootQueryResolver implements GraphQLQueryResolver {
 	
-	static final String ROOT_QUERY_RESOLVER = "com.thinkenterprise.domain.route.graphql.resolver.query.RootQueryResolver";
 	protected static Logger log = LoggerFactory.getLogger(RootQueryResolver.class);
 	
 	private RouteRepository routeRepository; 
@@ -46,7 +43,8 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 		this.routeRepository=routeRepository;	
 	}
 	
-	//@PreAuthorize("hasAuthority('SCOPE_read')")
+	// @PreAuthorize("hasAuthority('SCOPE_read')") // Profile: security & token
+	//@PreAuthorize("hasRole('read')")  // Profile: security & basic
 	public List<Route> routes(DataFetchingEnvironment dataFetchingEnvironment) {
 		
 		CustomGraphQLServletContext customGraphQLServletContext = (CustomGraphQLServletContext) dataFetchingEnvironment.getContext();
@@ -56,7 +54,9 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 		if(!exception)
 			return routeRepository.findAll();
 		else 
-			throw new RouteException("Test Exception ....");
+			 //throw GraphqlErrorException.newErrorException().message("GraphqlErrorException: Route Data Fetching doesent work").build();
+			throw new RouteException("RouteException: Route Data Fetching doesent work");
+		
 	} 
 	
 	public Route route(String flightNumber) {
@@ -65,7 +65,7 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 	
 	@ExceptionHandler(RouteException.class)
 	public GraphQLError exception(RouteException routeException) {
-		return new RouteGraphQLError(routeException.getMessage());
+		return new CustomGraphQLError("CustomGraphQLError: Exception Handler");
 	}
-
+	
 }

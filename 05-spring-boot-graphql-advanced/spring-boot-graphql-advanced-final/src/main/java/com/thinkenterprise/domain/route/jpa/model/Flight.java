@@ -14,7 +14,7 @@ import com.thinkenterprise.domain.employee.jpa.model.Employee;
 import com.thinkenterprise.domain.jpa.AbstractEntity;
 
 /**  
-* GraphQL Spring Boot Samples 
+* GraphQL Spring Boot Training 
 * Design and Development by Michael Schäfer 
 * Copyright (c) 2020 
 * All Rights Reserved.
@@ -31,13 +31,11 @@ public class Flight extends AbstractEntity {
 	@Transient
 	private Float discount;
 
-	
 	@ManyToOne
 	private Route route;
 
 	@OneToMany(mappedBy="flight",cascade=CascadeType.REMOVE)
 	private Set<Employee> employees;
-
 
 	public Flight() {
 		super();

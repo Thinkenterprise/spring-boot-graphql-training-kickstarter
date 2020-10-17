@@ -12,9 +12,9 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.observables.ConnectableObservable;
 
 /**  
-* GraphQL Spring Boot Samples 
+* GraphQL Spring Boot Training 
 * Design and Development by Michael Schäfer 
-* Copyright (c) 2019 
+* Copyright (c) 2020 
 * All Rights Reserved.
 * 
 * @author Michael Schäfer
@@ -38,15 +38,12 @@ public class RxJavaRouteSubscriptionNotifier implements RouteSubscriptionNotifie
 
 	@Override
 	public void emit(Route route) {
-		 observableEmitter.onNext(route);
-		
+		 observableEmitter.onNext(route);	
 	}
 
 	@Override
 	public Publisher<Route> getPublisher() {
 		return publisher;
 	}
-    
-    
-   
+  
 }
