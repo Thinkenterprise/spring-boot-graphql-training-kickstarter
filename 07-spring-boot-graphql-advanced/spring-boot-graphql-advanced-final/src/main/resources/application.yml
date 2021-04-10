@@ -1,0 +1,48 @@
+# Custom Properties 
+route:
+  exception: false
+
+#Configure GraphQL 
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    subscriptions:
+      websocket:
+        path: /subscriptions
+    exception-handlers-enabled: true
+  tools:
+    schemaLocationPattern: "**/*.graphql"
+
+## JPA Database Configuration 
+spring:
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop         
+      
+## H2 & Data Source Configuration  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console    
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE 
+   
+   
+## Profiles Supported reactor, security, token, basic
+  profiles:
+    active: projectReactor, security, token, context 
+    
+## Security OAuth2/JWT 
+  security:
+    oauth2:
+      resourceserver:
+        jwt: 
+          public-key-location: public-key.txt
+    
+## Gerneral Spring Configuration 
+server:
+  port: 4000

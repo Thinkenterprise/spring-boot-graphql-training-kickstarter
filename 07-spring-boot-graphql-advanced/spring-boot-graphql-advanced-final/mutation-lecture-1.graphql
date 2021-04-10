@@ -1,0 +1,3 @@
+mutation createRoute {createRoute(flightNumber: "LH410") {id flightNumber}}
+
+
