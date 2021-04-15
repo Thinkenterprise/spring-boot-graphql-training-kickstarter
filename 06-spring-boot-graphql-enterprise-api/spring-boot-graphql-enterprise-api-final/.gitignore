@@ -1,0 +1,13 @@
+bin/
+target/
+build/
+gradle/
+.gradle/
+
+.DS_Store
+.classpath
+.project
+.settings
+/.apt_generated/
+.idea/
+*.iml
