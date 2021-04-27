@@ -1,6 +1,8 @@
 package com.thinkenterprise.domain.route.graphql.resolver.query;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -66,7 +68,14 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 	@ExceptionHandler(value = RouteNotFoundException.class)
 	public GraphQLError exceptionHandler(RouteNotFoundException routeNotFoundException, ErrorContext error) {
 		
-		return GraphqlErrorBuilder.newError().message(routeNotFoundException.getMessage()).path(error.getPath()).build();
+		Map<String, Object> map = new HashMap<>();
+		map.put("MyExtention", 2);
+		
+		return GraphqlErrorBuilder.newError().message(routeNotFoundException.getMessage())
+											 .extensions(map)
+				                             .location(error.getLocations().get(0))
+				                             .path(error.getPath())
+				                             .build();
 		
 	}
 	

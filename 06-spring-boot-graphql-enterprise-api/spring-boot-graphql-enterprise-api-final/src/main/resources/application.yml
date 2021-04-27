@@ -18,7 +18,7 @@ spring:
       path: /h2-console    
   datasource:
     url: jdbc:h2:mem:airlinedb;DB_CLOSE_ON_EXIT=FALSE 
-  profiles:    active:    - security
+  profiles:    active:#    - security
   security:
     oauth2:
       resourceserver:
