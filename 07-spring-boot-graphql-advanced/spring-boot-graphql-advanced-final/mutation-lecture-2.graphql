@@ -1,5 +1,0 @@
-mutation update{updateRoute(id: 101 departure: "BER") {id departure}}
-mutation {updateRouteWithRouteInput(id: 102, input: {departure: "BER" destination: "MUC"}) {id flightNumber departure destination}}
-
-
-

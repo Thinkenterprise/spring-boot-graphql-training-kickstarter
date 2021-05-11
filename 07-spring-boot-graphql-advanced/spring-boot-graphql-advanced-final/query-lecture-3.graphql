@@ -1,6 +1,0 @@
-query fligths{routes{id disabled flights{ id price}}}
-query employees {routes{id disabled flights{ id price employees{id staffNumber role}}}}
-query fligthsRoute{routes{id disabled flights{ id price route{id}}}}
-query routeRoute{routes{id route{id flightNumber}}}
-
-

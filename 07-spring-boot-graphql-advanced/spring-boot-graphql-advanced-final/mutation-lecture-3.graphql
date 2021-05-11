@@ -1,4 +1,0 @@
-mutation delete{deleteRoute(id: 103)} 
-
-
-

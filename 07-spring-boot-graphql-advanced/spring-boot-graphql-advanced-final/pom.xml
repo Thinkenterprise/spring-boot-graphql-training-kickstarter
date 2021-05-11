@@ -4,18 +4,23 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.thinkenterprise</groupId>
-	<artifactId>spring-boot-graphql-training-complete</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>spring-boot-graphql-advanced-final</artifactId>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>Graphql Spring Boot Training</name>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.0.RELEASE</version>
-		<relativePath />
-	</parent>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>2.4.4</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,10 +31,7 @@
 
 	<dependencies>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-		</dependency>
+		<!-- Spring Boot Starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -42,10 +44,9 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
+
+		<!-- Spring Boot Security Starter for Basic Authentication and OAuth 2 
+			/ JWT (Add for Enterprise API Exercise) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -55,58 +56,61 @@
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 
+		<!-- Spring Boot Actuator Starter for Metrics (Add for Advanced API Exercise) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+
+		<!-- GraphQL Spring Boot Starter (Add for Application Exercise) -->
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-spring-boot-starter</artifactId>
-			<version>7.1.0</version>
+			<version>11.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-kickstart-spring-boot-starter-tools</artifactId>
-			<version>7.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.graphql-java-kickstart</groupId>
-			<artifactId>altair-spring-boot-starter</artifactId>
-			<version>7.1.0</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.graphql-java-kickstart</groupId>
-			<artifactId>graphiql-spring-boot-starter</artifactId>
-			<version>7.1.0</version>
-			<scope>runtime</scope>
+			<version>11.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>playground-spring-boot-starter</artifactId>
-			<version>7.1.0</version>
+			<version>11.0.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.graphql-java-kickstart</groupId>
-			<artifactId>voyager-spring-boot-starter</artifactId>
-			<version>7.1.0</version>
-			<scope>runtime</scope>
-		</dependency>
+
+		<!-- Testing GraphQL API (Add for Enterprise API Exercise) -->
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-spring-boot-starter-test</artifactId>
-			<version>7.1.0</version>
+			<version>11.0.0</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Additional ISO 8601, 3339 complaint scalar type (Add for API Exercise) -->
 		<dependency>
 			<groupId>com.zhokhov.graphql</groupId>
 			<artifactId>graphql-datetime-spring-boot-starter</artifactId>
-			<version>2.3.1</version>
+			<version>4.0.0</version>
 		</dependency>
-		<dependency>
-			<groupId>io.reactivex.rxjava2</groupId>
-			<artifactId>rxjava</artifactId>
-		</dependency>
+
+		<!-- Reactive Stream Implementation of Spring Project Reactor. Necessary 
+			to implement Subscriptions (Add for API Exercise) -->
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-core</artifactId>
 		</dependency>
+
+
+		<!-- GraphQL Java -->
+		<!-- Schema Validation (Add for Enterprise API Exercise) -->
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java-extended-validation</artifactId>
+			<version>16.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -130,6 +134,7 @@
 	</build>
 
 	<repositories>
+		<!-- Spring Boot Original Maven Repository -->
 		<repository>
 			<id>spring-repo</id>
 			<name>Spring Repository</name>
@@ -138,6 +143,7 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
+		<!-- GraphQL Original Maven Repository -->
 		<repository>
 			<id>jcenter</id>
 			<url>https://jcenter.bintray.com/</url>
