@@ -1,0 +1,34 @@
+scalar LocalDate
+
+schema {
+	query: Query
+	mutation: Mutation
+}
+
+type Query { 
+	routes(page: Int = 0, size: Int = 1): [Route]
+}
+
+type Mutation {
+	createRoute(flightNumber: String!): Route
+}
+
+# Route documentation First Line 
+# Route documentation Second Line
+type Route {
+    # id documentation 
+	id: ID!
+	flightNumber: String! 
+	departure: String @deprecated(reason: "Use `newField`.")
+	destination: String
+	isDisabled: Boolean
+	flights: [Flight!]
+}
+
+type Flight {
+	id: ID!
+	price: Float!
+	route: Route!
+	discount: Float!
+	date: LocalDate!
+}
