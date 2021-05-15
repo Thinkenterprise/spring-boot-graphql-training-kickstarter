@@ -1,34 +1,13 @@
-# GraphQL Query Language
-
-## Start GraphQL Backend 
-
-```
-java -jar xyz
-```
-
-## Test Tools 
-
-You can use **Postman**, **Playground** or the Command Line Shell like **bash**
-
-Playground is provided by the GraphQL Backend over 
-
-```
-localhost:4000/playground 
-```
-
-### All Route 
-```
- query allRoutes {
+# 1
+query allRoutes {
   routes(page: 0, size: 3) {
     id
     flightNumber
     isDisabled
   }
 }
-```
-### All Route with Variables
 
-```
+# 2
 query variable($page: Int = 0, $size: Int = 3) {
   routes(page: $page, size:$size) {
     id
@@ -37,12 +16,8 @@ query variable($page: Int = 0, $size: Int = 3) {
   }
 }
 
-```
-
-### Three Queries in one Request 
-
-```
-query variable($page: Int = 0, $size: Int = 3) {
+# 3
+query variableThreeTimes($page: Int = 0, $size: Int = 3) {
   first: routes(page: $page, size: $size) {
     id
     flightNumber
@@ -61,11 +36,7 @@ query variable($page: Int = 0, $size: Int = 3) {
   }
 }
 
-```
-
-### Three Queries in one Request using Fragments 
-
-```
+# 4
 query variableThreeTimesFragment($page: Int = 0, $size: Int = 3) {
   first: routes(page: $page, size: $size) {
    ...routeDetails
@@ -87,45 +58,55 @@ fragment routeDetails on Route {
   flightNumber
 }
 
-```
+# 5
+query routesWithInheritance {
+  routes {
+    id
+    flights {
+      id
+      employees {
+        id
+        ... on Attendant {
+          rank
+        }
+        ... on Pilot {
+          certificateNumber
+        }
+      }
+    }
+  }
+}
 
-## One concrete Route 
+# 6
 
-```
-query single {
+query singleRoute {
   route(flightNumber: "LH7902") {
     id
     flightNumber
     isDisabled
   }
 }
-```
 
-## Create a new Route  
 
-```
+# 7
+
 mutation createRoute {
   createRoute(flightNumber: "LH410") {
     id
     flightNumber
   }
 }
-```
 
-## Subscriptions 
+# 7 
 
-```
 subscription {
   registerRouteCreated {
     id
     flightNumber
   }
 }
-```
 
-## Introspection 
-
-```
+# 8
 query {
   __type(name: "Route") {
     name
@@ -134,9 +115,3 @@ query {
     }
   }
 }
-```
-
-
-
-
-
