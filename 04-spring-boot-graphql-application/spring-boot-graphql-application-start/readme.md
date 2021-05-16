@@ -1,8 +1,20 @@
 # GraphQL Application
 
-## Add GraphQL Web Starter 
+## Add Spring Boot Web Starter 
 
-Add GraphQL **HTTP** Endpoint based on **Java EE Servlet** Technology. 
+Add Spring Boot Web Support based on **Servlet** technology.
+
+``` 
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+```
+
+## Add GraphQL Spring Boot Web Starter 
+
+Add GraphQL **HTTP** Endpoint based on **Java EE Servlet** technology. 
 
 
 ``` 
@@ -13,7 +25,7 @@ Add GraphQL **HTTP** Endpoint based on **Java EE Servlet** Technology.
 </dependency>
 ```
 
-## Add GraphQL Tools Starter 
+## Add GraphQL Srping Boot Tools Starter 
 
 Add GrapQHL **Schema**-Support. 
 
@@ -23,9 +35,11 @@ Add GrapQHL **Schema**-Support.
 	<artifactId>playground-spring-boot-starter</artifactId>
 	<version>11.0.0</version>
 </dependency>
-``` 
+```
+ 
 
 ## Add GraphQL Playground Starter 
+
 
 Add **Plaground IDE** to work with GraphQL Queries on the GraphQL Backend. 
 
@@ -37,35 +51,38 @@ Add **Plaground IDE** to work with GraphQL Queries on the GraphQL Backend.
 </dependency>
 ```
 
-## Add GraphQL Tools Configuration
+## Add GraphQL Spring Boot Configuration 
 
-``` maven
+``` 
 graphql:
   tools:
     schemaLocationPattern: "**/*.graphql"
-```
-
-## Add GraphQL Servlet Configuration
-
-``` maven
-graphql:
+    introspection-enabled: true
   servlet:
-    mapping: /graphql
     enabled: true
+    mapping: /graphql
+  playground:
+    enabled: true
+          
+## Port Configuration 
+server:
+  port: 4000
 ```
+
 
 ## Start Application 
 
 ``mvn spring-boot:run``
 
-## Open Plaground IDE
+## Open Playground IDE
 
-Only to check that the IDE is working. It is'nt possible to execute a query because we have no GraphQL API Model configured!! 
+Start Playground an test the Application with the **Hello World** query. 
 
 ``localhost:4000/playground``
 
-## Open H2 Web Console 
 
-Only to check or read the database. 
+```
+query {helloWorld}
+```
 
-``localhost:4000/hs-console``
+
