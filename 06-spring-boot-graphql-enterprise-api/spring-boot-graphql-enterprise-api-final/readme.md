@@ -1,4 +1,86 @@
-# GraphQL API Exercise 
+ GraphQL API Exercise 
+
+
+## Context 
+
+
+### Create Custom Context 
+Create your own **custom GraphQL context** with additional information ``userId``.
+
+
+```  
+public class CustomGraphQLServletContext implements GraphQLServletContext {
+	private String userId;
+	private DefaultGraphQLServletContext defaultGraphQLServletContext;
+	
+	public CustomGraphQLServletContext() {
+		super();
+	}
+	
+	public CustomGraphQLServletContext(String userId, DefaultGraphQLServletContext defaultGraphQLServletContext) {
+		super();
+		this.userId = userId;
+		this.defaultGraphQLServletContext = defaultGraphQLServletContext;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
+}
+```
+
+### Create Custom Context Builder 
+
+Build the Custom GraphQL Context for each HTTP GraphQL Query Request. Therefore the ``GraphQLServletContextBuilder`` is responsable. 
+
+```  
+public class CustomGraphQLServletContextBuilder implements GraphQLServletContextBuilder {
+
+		
+	@Override
+	public GraphQLContext build(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+		
+		String userId = httpServletRequest.getHeader("user-id");
+	    defaultGraphQLServletContext = DefaultGraphQLServletContext.createServletContext()
+				    											   .with(httpServletRequest)
+				    											   .with(httpServletResponse)
+				    											   .build();
+		
+		return new CustomGraphQLServletContext(userId, defaultGraphQLServletContext);	
+	}
+```
+
+### Provide Custom Context Builder 
+
+To provide your own ``GraphQLServletContextBuilder`` you have to configure it by providing an instance in the **Spring Boot Application Context**, which will be used by the **Spring Boot GraphQL Autoconfiguration**. 
+
+```  
+public class CustomGraphQLServletContextBuilder implements GraphQLServletContextBuilder {
+
+		
+	@Override
+	public GraphQLContext build(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+		
+		String userId = httpServletRequest.getHeader("user-id");
+	    defaultGraphQLServletContext = DefaultGraphQLServletContext.createServletContext()
+				    											   .with(httpServletRequest)
+				    											   .with(httpServletResponse)
+				    											   .build();
+		
+		return new CustomGraphQLServletContext(userId, defaultGraphQLServletContext);	
+	}
+```
+
+
+### Test Custom Context 
+
+Call the query which saved in ``custom-context-sample.sh``
+
 
 
 ## Add Validation 

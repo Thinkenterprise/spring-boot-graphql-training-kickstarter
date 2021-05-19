@@ -41,26 +41,4 @@ public class RootMutationResolver implements GraphQLMutationResolver {
         projectReactorRouteSubscriptionNotifier.emit(route);
         return route; 
     }
-
-    public Route updateRoute(Long id, String departure) {
- 		Route route = routeRepository.findById(id).get();
- 		route.setDeparture(departure);
- 		routeRepository.save(route);
- 		return route;
- 	}
-    
-    public Route updateRouteWithRouteInput(Long id, RouteInput routeInput) {
-        Route route = routeRepository.findById(id).get();
-        route.setDeparture(routeInput.getDeparture());
-        route.setDestination(routeInput.getDestination());
-        routeRepository.save(route);      
-        return route;
-    }
-    
-    public Boolean isDeleteRoute(Long id) {
-        routeRepository.deleteById(id);
-        return true;
-    }
-    
-
 }

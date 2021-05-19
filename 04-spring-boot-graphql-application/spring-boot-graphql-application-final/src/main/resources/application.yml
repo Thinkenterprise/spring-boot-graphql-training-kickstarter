@@ -1,7 +1,7 @@
 # GraphQL Tools and Servlet Configuration  
 graphql:
   tools:
-    schemaLocationPattern: "**/*.graphql"
+    schema-location-pattern: "**/*.graphql"
     introspection-enabled: true
   servlet:
     enabled: true

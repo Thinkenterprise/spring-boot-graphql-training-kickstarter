@@ -3,6 +3,8 @@ package com.thinkenterprise.domain.route.graphql.resolver.mutation;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +25,7 @@ import graphql.kickstart.tools.GraphQLMutationResolver;
 */
 
 @Component
-@Transactional
+//@Transactional
 @Validated
 public class RootMutationResolver implements GraphQLMutationResolver {
 	
@@ -39,10 +41,12 @@ public class RootMutationResolver implements GraphQLMutationResolver {
         this.routeRepository=routeRepository;	 
     }
  
+    @Transactional(rollbackFor = DataIntegrityViolationException.class)
     public Route createRoute(String flightNumber) {
     	Route route = new Route(flightNumber);
         routeRepository.save(route);
         projectReactorRouteSubscriptionNotifier.emit(route);
+        //throw new DataIntegrityViolationException("Test");
         return route; 
     }
 

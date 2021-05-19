@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.thinkenterprise.domain.route.exceptions.RouteNotFoundException;
 import com.thinkenterprise.domain.route.model.jpa.Route;
 import com.thinkenterprise.domain.route.model.jpa.RouteRepository;
+import com.thinkenterprise.graphql.context.CustomGraphQLServletContext;
 
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.kickstart.spring.error.ErrorContext;
 import graphql.kickstart.spring.error.ThrowableGraphQLError;
 import graphql.kickstart.tools.GraphQLQueryResolver;
+import graphql.schema.DataFetchingEnvironment;
 
 /**
  * GraphQL Spring Boot Training Design and Development by Michael Schäfer
@@ -56,8 +58,11 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 
 	}
 
-	public List<Route> routes(int page, int size) {
-
+	public List<Route> routes(int page, int size, DataFetchingEnvironment dataFetchingEnvironment)  {
+			
+		CustomGraphQLServletContext customGraphQLServletContext = (CustomGraphQLServletContext) dataFetchingEnvironment.getContext();
+		log.info("Custom Context: " + customGraphQLServletContext.getUserId());
+	
 		Pageable pageable = PageRequest.of(page, size);
 
 		Page<Route> pageResult = routeRepository.findAll(pageable);

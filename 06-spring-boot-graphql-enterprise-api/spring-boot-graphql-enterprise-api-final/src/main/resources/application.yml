@@ -1,5 +1,6 @@
 # GraphQL Tools and Servlet Configuration  
 graphql:
+  extended-scalars: Date
   tools:
     schemaLocationPattern: "**/*.graphql"
   servlet:
@@ -9,7 +10,10 @@ graphql:
       websocket:
         path: /subscriptions
     exception-handlers-enabled: true 
-    
+    maxQueryDepth: 100
+    maxQueryComplexity: 100
+    async-timeout: 5000
+      
 ## H2 & Data Source Configuration 
 spring: 
   h2:

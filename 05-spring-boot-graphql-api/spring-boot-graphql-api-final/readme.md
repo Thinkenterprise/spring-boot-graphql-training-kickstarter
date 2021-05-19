@@ -22,10 +22,6 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 		this.routeRepository = routeRepository;
 	}
 
-	public Route route(String flightNumber) {
-		return routeRepository.findByFlightNumber(flightNumber);
-	}
-
 	public List<Route> routes(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page, size);
@@ -37,9 +33,9 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 
 ```
 
-### Add Object Query Resolver 
+### Add Property Query Resolver 
 
-We have two **Object Query Resolvers**. One for **Route** ``RouteQueryResolver`` an one for the object **Flight** ``FLightQueryResolver``. 
+We have two **Property Query Resolvers**. One for **Route** ``RouteQueryResolver`` an one for the object **Flight** ``FLightQueryResolver``. 
 
 Here the code snippet  ``RouteQueryResolver`` for your implementation.  
 
@@ -160,28 +156,7 @@ public class RootMutationResolver implements GraphQLMutationResolver {
         routeRepository.save(route);
         projectReactorRouteSubscriptionNotifier.emit(route);
         return route; 
-    }
-
-    public Route updateRoute(Long id, String departure) {
- 		Route route = routeRepository.findById(id).get();
- 		route.setDeparture(departure);
- 		routeRepository.save(route);
- 		return route;
- 	}
-    
-    public Route updateRouteWithRouteInput(Long id, RouteInput routeInput) {
-        Route route = routeRepository.findById(id).get();
-        route.setDeparture(routeInput.getDeparture());
-        route.setDestination(routeInput.getDestination());
-        routeRepository.save(route);      
-        return route;
-    }
-    
-    public Boolean isDeleteRoute(Long id) {
-        routeRepository.deleteById(id);
-        return true;
-    }
-    
+    }    
 
 }
 ```
@@ -270,24 +245,18 @@ RuntimeWiring.newRuntimeWiring().scalar(<your scalar implementation>)
 
 There are already a number of libraries that provide additional scalars.
 
-**GraphQL Extended Data Types** Library supports Date Time, Object, JSON, Numerics, Regex, Locale. 
+**GraphQL Extended Data Types** Library supports Date, Time, DateTime, URL, Object, JSON, Numerics, Regex, Locale. 
 - [GraphQL Extended Data Types](https://github.com/graphql-java/graphql-java-extended-scalars)
 
 
-**Alexey Zhokhov** Library supports all data types defined in **ISO 8601**, **RFC 3339** that are supported from Java 8 onwards. In addition, the library provides a Spring Boot **Autoconfiguration** and **Properties** for the configuration.  
+The library will be delivered with **Spring Boot GraphQL Starter** and over the Autoconfiguration the new types will be registered.
 
-- [Alexey Zhokhov Github](https://github.com/donbeave/graphql-java-datetime)
+You have only to configure which type you want to use. 
 
-
-
-### Add new Type Library
-
-Here the code snippet from ``pom.xml`` for your implementation. 
 
 ```
-<dependency>
-  <groupId>com.zhokhov.graphql</groupId>
-  <artifactId>graphql-datetime-spring-boot-starter</artifactId>
-  <version>4.0.0</version>
-</dependency>
+graphql:
+  extended-scalars: Date
 ```
+
+

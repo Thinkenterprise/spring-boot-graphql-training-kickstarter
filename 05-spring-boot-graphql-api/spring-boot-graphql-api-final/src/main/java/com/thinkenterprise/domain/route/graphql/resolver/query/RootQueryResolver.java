@@ -34,10 +34,6 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 		this.routeRepository = routeRepository;
 	}
 
-	public Route route(String flightNumber) {
-		return routeRepository.findByFlightNumber(flightNumber);
-	}
-
 	public List<Route> routes(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page, size);

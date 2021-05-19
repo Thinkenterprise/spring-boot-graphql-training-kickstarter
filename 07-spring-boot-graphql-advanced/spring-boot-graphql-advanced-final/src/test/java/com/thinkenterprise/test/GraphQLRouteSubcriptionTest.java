@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import com.graphql.spring.boot.test.GraphQLResponse;
 import com.graphql.spring.boot.test.GraphQLTestSubscription;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
+import com.graphql.spring.boot.test.assertions.GraphQLFieldAssert;
 
 /**  
 * GraphQL Spring Boot Training 
@@ -26,12 +30,33 @@ import com.graphql.spring.boot.test.GraphQLTestTemplate;
 * @author Michael Schäfer
 */
 
-@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
 public class GraphQLRouteSubcriptionTest {
 
     @Autowired
     private GraphQLTestSubscription graphQLTestSubscription;
     
-
+    @Autowired
+    private GraphQLTestTemplate graphQLTestTemplate;
+    
+    @Test
+    public void testRegisterSubscriptionRouteCreated() throws InterruptedException, IOException, ExecutionException {
+    	
+    	CompletableFuture<Void> cf = CompletableFuture.runAsync(() -> graphQLTestSubscription.start("subcription-register.graphql")
+    			                                                                           .awaitAndGetNextResponse(10000)
+    			                                                                           .assertThatDataField());
+    	
+    	Thread.sleep(1000);
+    		
+    	GraphQLResponse response  = graphQLTestTemplate.postForResource("createRoute.graphql");
+        assertNotNull(response);
+        assertTrue(response.isOk());
+        assertEquals("RO311", response.get("$.data.createRoute.flightNumber"));
+        assertEquals("1", response.get("$.data.createRoute.id"));
+        
+        cf.get();
+     	
+    	
+    }
      
 }

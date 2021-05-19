@@ -1,6 +1,6 @@
 directive @uppercase on FIELD_DEFINITION
 
-scalar LocalDate
+scalar Date
 
 schema {
 	query: Query
@@ -10,23 +10,14 @@ schema {
 
 type Query { 
 	routes(page: Int = 0, size: Int = 1): [Route]
-	route(flightNumber: String!): Route
 }
 
 type Mutation {
 	createRoute(flightNumber: String!): Route
-	deleteRoute(id: ID!): Boolean
-	updateRoute(id: ID!, departure: String!): Route
-	updateRouteWithRouteInput(id: ID!, routeInput: RouteInput) : Route
 }
 
 type Subscription {
     registerRouteCreated: Route 
-}
-
-input RouteInput {
-	departure: String
-	destination: String
 }
 
 # Route documentation First Line 
@@ -47,7 +38,7 @@ type Flight {
 	price: Float!
 	route: Route!
 	discount: Float!
-	date: LocalDate!
+	date: Date!
 	employees: [Employee!]
 }
 

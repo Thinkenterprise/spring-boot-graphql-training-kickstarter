@@ -63,10 +63,5 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
-		<!-- GraphQL Original Maven Repository -->
-		<repository>
-			<id>jcenter</id>
-			<url>https://jcenter.bintray.com/</url>
-		</repository>
 	</repositories>
 </project>

@@ -40,17 +40,17 @@
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-spring-boot-starter</artifactId>
-			<version>11.0.0</version>
+			<version>11.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-kickstart-spring-boot-starter-tools</artifactId>
-			<version>11.0.0</version>
+			<version>11.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>playground-spring-boot-starter</artifactId>
-			<version>11.0.0</version>
+			<version>11.1.0</version>
 		</dependency>	
 	</dependencies>
 
@@ -83,11 +83,6 @@
 			<releases>
 				<enabled>true</enabled>
 			</releases>
-		</repository>
-		<!-- GraphQL Original Maven Repository -->
-		<repository>
-			<id>jcenter</id>
-			<url>https://jcenter.bintray.com/</url>
 		</repository>
 	</repositories>
 </project>

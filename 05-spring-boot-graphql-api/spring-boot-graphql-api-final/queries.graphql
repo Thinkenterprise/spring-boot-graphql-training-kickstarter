@@ -1,0 +1,29 @@
+query testAllSteps{
+  routes {
+    id
+    departure
+    flights {
+      id
+      date
+      employees {
+        id
+        ... on Attendant {
+          rank
+        }
+        ... on Pilot {
+          certificateNumber
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+

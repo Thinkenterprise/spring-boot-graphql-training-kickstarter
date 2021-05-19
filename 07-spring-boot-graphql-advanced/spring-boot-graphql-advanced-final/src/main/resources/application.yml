@@ -47,6 +47,9 @@ server:
 logging:
   level:
     '[graphql]': debug
+    '[org.springframework.transaction]': debug
+    '[org.springframework.data]': debug
+    
     
 ## Enable Long Request to messure the performance optimization     
 thinkenterprise:

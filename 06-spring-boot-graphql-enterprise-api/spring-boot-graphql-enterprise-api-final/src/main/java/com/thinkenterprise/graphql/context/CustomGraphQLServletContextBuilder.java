@@ -5,20 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.websocket.Session;
 import javax.websocket.server.HandshakeRequest;
 
-import org.dataloader.DataLoader;
-import org.dataloader.DataLoaderOptions;
-import org.dataloader.DataLoaderRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.thinkenterprise.domain.route.service.DiscountService;
-import com.thinkenterprise.graphql.cache.RedisCache;
-import com.thinkenterprise.graphql.data.DiscountBatchLoader;
 
 import graphql.kickstart.execution.context.GraphQLContext;
 import graphql.kickstart.servlet.context.DefaultGraphQLServletContext;
-import graphql.kickstart.servlet.context.DefaultGraphQLWebSocketContext;
 import graphql.kickstart.servlet.context.GraphQLServletContextBuilder;
 
 /**  
@@ -34,13 +25,8 @@ public class CustomGraphQLServletContextBuilder implements GraphQLServletContext
 
 	protected static Logger log = LoggerFactory.getLogger(CustomGraphQLServletContextBuilder.class);
 
+		
 	DefaultGraphQLServletContext defaultGraphQLServletContext;
-	
-	@Autowired
-	private DiscountService discountService;
-	
-	@Autowired
-	private RedisCache redisCache;
 	
 	@Override
 	public GraphQLContext build(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -49,7 +35,6 @@ public class CustomGraphQLServletContextBuilder implements GraphQLServletContext
 	    defaultGraphQLServletContext = DefaultGraphQLServletContext.createServletContext()
 				    											   .with(httpServletRequest)
 				    											   .with(httpServletResponse)
-				    											   .with(createDataLoaderRegisty())
 				    											   .build();
 		
 		return new CustomGraphQLServletContext(userId, defaultGraphQLServletContext);	
@@ -65,23 +50,12 @@ public class CustomGraphQLServletContextBuilder implements GraphQLServletContext
 
 	@Override
 	public GraphQLContext build(Session session, HandshakeRequest handshakeRequest) {
-		
-		return DefaultGraphQLWebSocketContext.createWebSocketContext().with(handshakeRequest)
-																	  .with(session)
-																	  .with(createDataLoaderRegisty())
-																	  .build();
+		throw new IllegalStateException("Unsupported Web Socket build method called in CustomGraphQLServletContextBuilder");
 	}
 	
 	@Override
 	public GraphQLContext build() {	
 		throw new IllegalStateException("Unsupported non network build method called in CustomGraphQLServletContextBuilder");
-	}
-	
-	public DataLoaderRegistry createDataLoaderRegisty() {
-		DataLoaderOptions options = DataLoaderOptions.newOptions().setCacheMap(redisCache);
-		
-		return new DataLoaderRegistry().register("discount",
-				DataLoader.newDataLoader(new DiscountBatchLoader(discountService), options));
 	}
 	
 	

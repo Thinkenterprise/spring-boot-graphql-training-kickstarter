@@ -115,3 +115,25 @@ query {
     }
   }
 }
+
+# 9
+query withDirective($page: Int = 0, $size: Int = 3, $deep: Boolean = true) {
+  routes(page: $page, size: $size) {
+    id
+    flightNumber
+    isDisabled
+    flights @include(if: $deep){
+      id
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
