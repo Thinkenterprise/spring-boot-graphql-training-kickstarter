@@ -3,7 +3,7 @@
 ## Start GraphQL Backend 
 
 ```
-java -jar xyz
+java -jar application
 ```
 
 ## Test Tools 

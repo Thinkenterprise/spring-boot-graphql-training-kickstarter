@@ -30,7 +30,6 @@
 	</properties>
 
 	<dependencies>
-
 		<!-- Spring Boot Starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -44,29 +43,21 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-
 		<!-- GraphQL Spring Boot Starter -->
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-spring-boot-starter</artifactId>
-			<version>11.0.0</version>
+			<version>11.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-kickstart-spring-boot-starter-tools</artifactId>
-			<version>11.0.0</version>
+			<version>11.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>playground-spring-boot-starter</artifactId>
-			<version>11.0.0</version>
-		</dependency>
-
-		<!-- Additional ISO 8601, 3339 compliant scalar type -->
-		<dependency>
-			<groupId>com.zhokhov.graphql</groupId>
-			<artifactId>graphql-datetime-spring-boot-starter</artifactId>
-			<version>4.0.0</version>
+			<version>11.1.0</version>
 		</dependency>
 
 		<!-- Reactive Stream Implementation of Spring Project Reactor. Necessary 
@@ -75,7 +66,6 @@
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-core</artifactId>
 		</dependency>
-
 
 	</dependencies>
 
@@ -98,7 +88,7 @@
 			</plugin>
 		</plugins>
 	</build>
-
+  
 	<repositories>
 		<!-- Spring Boot Original Maven Repository -->
 		<repository>
@@ -108,11 +98,6 @@
 			<releases>
 				<enabled>true</enabled>
 			</releases>
-		</repository>
-		<!-- GraphQL Original Maven Repository -->
-		<repository>
-			<id>jcenter</id>
-			<url>https://jcenter.bintray.com/</url>
 		</repository>
 	</repositories>
 </project>

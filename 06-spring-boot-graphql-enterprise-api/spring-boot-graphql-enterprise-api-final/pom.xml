@@ -37,10 +37,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
@@ -73,26 +69,27 @@
 			<artifactId>playground-spring-boot-starter</artifactId>
 			<version>11.1.0</version>
 		</dependency>
-		<!-- Testing GraphQL API (Add for Enterprise  Exercise)-->
+		<!-- Testing GraphQL API (Add for API  Exercise)-->
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-spring-boot-starter-test</artifactId>
 			<version>11.1.0</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Reactive Stream Implementation of Spring Project Reactor. Necessary 
-			to implement Subscriptions (Add for API Exercise) -->
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-core</artifactId>
-		</dependency>
 		<!-- GraphQL Java -->
-		<!-- Schema Validation (Add for Enterprise  Exercise) -->
+				<!-- Schema Validation (Add for Enterprise  Exercise) -->
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-java-extended-validation</artifactId>
 			<version>16.0.0</version>
 		</dependency>
+		
+		<!-- Reactive Stream Implementation of Spring Project Reactor. Necessary 
+			to implement Subscriptions (Add for API Exercise) -->
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+		</dependency>	
 	</dependencies>
 
 	<build>
@@ -124,11 +121,6 @@
 			<releases>
 				<enabled>true</enabled>
 			</releases>
-		</repository>
-		<!-- GraphQL Original Maven Repository -->
-		<repository>
-			<id>jcenter</id>
-			<url>https://jcenter.bintray.com/</url>
 		</repository>
 	</repositories>
 </project>

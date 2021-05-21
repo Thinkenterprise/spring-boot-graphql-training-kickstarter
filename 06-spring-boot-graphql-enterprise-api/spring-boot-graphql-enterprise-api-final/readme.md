@@ -1,103 +1,10 @@
- GraphQL API Exercise 
-
-
-## Context 
-
-
-### Create Custom Context 
-Create your own **custom GraphQL context** with additional information ``userId``.
-
-
-```  
-public class CustomGraphQLServletContext implements GraphQLServletContext {
-	private String userId;
-	private DefaultGraphQLServletContext defaultGraphQLServletContext;
-	
-	public CustomGraphQLServletContext() {
-		super();
-	}
-	
-	public CustomGraphQLServletContext(String userId, DefaultGraphQLServletContext defaultGraphQLServletContext) {
-		super();
-		this.userId = userId;
-		this.defaultGraphQLServletContext = defaultGraphQLServletContext;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	
-}
-```
-
-### Create Custom Context Builder 
-
-Build the Custom GraphQL Context for each HTTP GraphQL Query Request. Therefore the ``GraphQLServletContextBuilder`` is responsable. 
-
-```  
-public class CustomGraphQLServletContextBuilder implements GraphQLServletContextBuilder {
-
-		
-	@Override
-	public GraphQLContext build(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-		
-		String userId = httpServletRequest.getHeader("user-id");
-	    defaultGraphQLServletContext = DefaultGraphQLServletContext.createServletContext()
-				    											   .with(httpServletRequest)
-				    											   .with(httpServletResponse)
-				    											   .build();
-		
-		return new CustomGraphQLServletContext(userId, defaultGraphQLServletContext);	
-	}
-```
-
-### Provide Custom Context Builder 
-
-To provide your own ``GraphQLServletContextBuilder`` you have to configure it by providing an instance in the **Spring Boot Application Context**, which will be used by the **Spring Boot GraphQL Autoconfiguration**. 
-
-```  
-public class CustomGraphQLServletContextBuilder implements GraphQLServletContextBuilder {
-
-		
-	@Override
-	public GraphQLContext build(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-		
-		String userId = httpServletRequest.getHeader("user-id");
-	    defaultGraphQLServletContext = DefaultGraphQLServletContext.createServletContext()
-				    											   .with(httpServletRequest)
-				    											   .with(httpServletResponse)
-				    											   .build();
-		
-		return new CustomGraphQLServletContext(userId, defaultGraphQLServletContext);	
-	}
-```
-
-
-### Test Custom Context 
-
-Call the query which saved in ``custom-context-sample.sh``
-
+# GraphQL Enterprise API Exercise 
 
 
 ## Add Validation 
 
-### Based on Extended Validation 
-First we have to add the **Extended Validation**. 
+The validation is already defined in the schema 
 
-```  
-<dependency>
-	<groupId>com.graphql-java</groupId>
-	<artifactId>graphql-java-extended-validation</artifactId>
-	<version>16.0.0</version>
-</dependency>
-
-```
-
-Next add the validation **Directive** Definition to the Schema.
 
 ```  
 directive @Size(min : Int = 0, max : Int = 2147483647, message : String = "graphql.validation.Size.message")
@@ -112,59 +19,34 @@ And at least the validation itself.
 route(flightNumber: String! @Size( min : 6, max : 6 )): Route
 
 ```
-                     
-### Based on Bean Validation JSR 303
 
-First we have to add the **Bean Validation Dependency**. We use the Hibernate implementation of the BV Specification. 
+To support the directives first add the **Extended Validation** libraries. 
 
 ```  
-	<dependency>
-		<groupId>org.hibernate.validator</groupId>
-		<artifactId>hibernate-validator</artifactId>
-	</dependency>
+<dependency>
+	<groupId>com.graphql-java</groupId>
+	<artifactId>graphql-java-extended-validation</artifactId>
+	<version>16.0.0</version>
+</dependency>
 
 ```
 
-Add the Validation Annotation on the Java Input Object which is used. 
+Register the validation Directives 
 
-```  
-public class RouteInput {
-    
-    @NotBlank
-    String departure;
-    String destination;
-}
 ```
+@Bean
+	public ValidationSchemaWiring validationRules() {
 
-Activate the validation on the resolvers over ``@Validation`` and the validation on the input object over ``@valid``.
-
-```  
-@Component
-@Validated
-public class RootMutationResolver implements GraphQLMutationResolver {
+		ValidationRules validationRules = ValidationRules.newValidationRules()
+								 .onValidationErrorStrategy(OnValidationErrorStrategy.RETURN_NULL).build();
 	
-   public Route updateRouteWithRouteInput(Long id, @Valid RouteInput routeInput) {
-        Route route = routeRepository.findById(id).get();
-        route.setDeparture(routeInput.getDeparture());
-        route.setDestination(routeInput.getDestination());
-        routeRepository.save(route);      
-        return route;
-    }
-    
-}
+		return new ValidationSchemaWiring(validationRules);
+
+	}
 ```
 
-
-
-
-<!-- Schema Validation (Enterprise API Exercise) -->
-		<dependency>
-			<groupId>com.graphql-java</groupId>
-			<artifactId>graphql-java-extended-validation</artifactId>
-			<version>16.0.0</version>
-		</dependency>
-
-
+Test the validation!! 
+                     
 
 ## Exceptions  
 
@@ -189,7 +71,7 @@ public Route route(String flightNumber) {
 	Optional<Route> route = routeRepository.findByFlightNumber(flightNumber);
 
 	if (route.isEmpty())
-		throw new RouteNotFoundException("Route with flightnumer " + flightNumber + "doent exists");
+		throw new RouteNotFoundException("Route with flightnumber " + flightNumber + "doesnt exists");
 	else
 		return route.get();
 
@@ -202,75 +84,63 @@ Implements a ``@ExceptionHandler`` method in our ``RootQueryResolver`` resolver 
 
 ```  
 @ExceptionHandler(value = RouteNotFoundException.class)
-public GraphQLError exceptionHandler(RouteNotFoundException routeNotFoundException, ErrorContext error) {
+	public GraphQLError exceptionHandler(RouteNotFoundException routeNotFoundException, ErrorContext error) {
 		
- return GraphqlErrorBuilder.newError().message(routeNotFoundException.getMessage()).path(error.getPath()).build();
+		Map<String, Object> map = new HashMap<>();
+		map.put("MyExtention", 2);
 		
+		return GraphqlErrorBuilder.newError().message(routeNotFoundException.getMessage())
+											 .extensions(map)
+				                             .location(error.getLocations().get(0))
+				                             .path(error.getPath())
+				                             .build();
+		
+	}
+
+```
+
+## Context
+
+### Custom Context 
+
+The Context Classes `CustomGraphQLServletContextBuilder` and `CustomGraphQLServletContext`` are already exists. 
+
+
+### Configuration 
+
+Create a instance over the Spring Boot Configuration. 
+
+```
+@Configuration
+public class GraphQLConfiguration {
+
+	@Bean
+	public CustomGraphQLServletContextBuilder customGraphQLServletContextBuilder() {
+		return new CustomGraphQLServletContextBuilder();
+	}
+	
 }
 
 ```
-## Test 
 
-Add a method to test **query all routes**. 
+### Using the Context 
 
-```  
-@Test
-public void assertThatRoutesWorks() throws IOException { 
-    GraphQLResponse response  = graphQLTestTemplate.postForResource("routes.graphql");
-    assertNotNull(response);
-    assertTrue(response.isOk());
-    assertEquals("101", response.get("$.data.routes[0].id"));
-}
 ```
+public List<Route> routes(int page, int size, DataFetchingEnvironment dataFetchingEnvironment)  {
+			
+		CustomGraphQLServletContext customGraphQLServletContext = (CustomGraphQLServletContext) dataFetchingEnvironment.getContext();
+		log.info("Custom Context: " + customGraphQLServletContext.getUserId());
+	
+		Pageable pageable = PageRequest.of(page, size);
 
-Add a file named ``routes.graphql`` which has the correct test query.
+		Page<Route> pageResult = routeRepository.findAll(pageable);
+		return pageResult.toList();
+		
+	}
 
-
-```  
-query {
-  routes {
-    id
-    flightNumber
-  }
-}
 ```
 
 ## Security 
-
-### Basic Authentication 
- 
-Check Spring Boot Security Dependency.  
-
-```  
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-security</artifactId>
-	</dependency>
-```
-
-Check the Basic Authentication ``GraphQLBasicWebSecurityConfiguration`` configuration. 
-
-To Enable the Security Configuration set the profile ``security`` and ``basic``. 
-
-```  
-spring: 
-   profiles:
-    active:
-    - security
-    - basic   	
-```
-
-Test the GraphQL API over Playground with a security header ( see header.md).  
-
-```  
-{
-	"Authorization": "Basic dXNlcjpwYXNzd29yZA=="
-}  	
-```
-
-To authorize you can add a @PreAuthorized method on each method for example ``@PreAuthorize("hasRole('read')")`` 
-with using the Security SPEL.  
-
 
 
 ### OAuth 2 / JWT 
@@ -304,5 +174,14 @@ Test the GraphQL API over Playground with a security header ( see header.md).
 To authorize you can add a @PreAuthorized method on each method for example ``@PreAuthorize("hasRole('read')")`` 
 with using the Security SPEL.  
 
+### Add the DDOS Features 
 
+```  
+servlet:
+    maxQueryDepth: 100
+    maxQueryComplexity: 100
+    async-timeout: 5000
 
+```
+
+Make some test, to test the features. 

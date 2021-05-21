@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>Graphql Spring Boot Training</name>
-
+ 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -61,8 +61,14 @@
 			<artifactId>playground-spring-boot-starter</artifactId>
 			<version>11.1.0</version>
 		</dependency>
- 
-					    
+		<!-- Testing GraphQL API (Add for API  Exercise)-->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-spring-boot-starter-test</artifactId>
+			<version>11.1.0</version>
+			<scope>test</scope>
+		</dependency>
+ 				    
 		<!-- Reactive Stream Implementation of Spring Project Reactor. Necessary 
 			to implement Subscriptions -->
 		<dependency>

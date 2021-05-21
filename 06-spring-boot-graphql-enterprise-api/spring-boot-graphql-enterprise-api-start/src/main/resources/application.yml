@@ -1,10 +1,15 @@
 # GraphQL Tools and Servlet Configuration  
 graphql:
+  extended-scalars: Date
   tools:
     schemaLocationPattern: "**/*.graphql"
   servlet:
     mapping: /graphql
     enabled: true
+    subscriptions:
+      websocket:
+        path: /subscriptions
+  playground:    enabled: true
     
 ## H2 & Data Source Configuration 
 spring: 

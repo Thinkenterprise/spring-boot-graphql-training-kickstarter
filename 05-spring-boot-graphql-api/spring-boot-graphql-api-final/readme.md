@@ -1,6 +1,12 @@
 # GraphQL API Exercise 
 
 
+## Database 
+
+The data are stored in an H2 database. All libraries, configuration, scripts and repositories are already available.
+You can find it in the starter project. 
+
+
 ## Add Query Resolvers 
 
 ### Add Root Query Resolvers 
@@ -210,6 +216,33 @@ public class GraphQLConfiguration {
 
 The instance of **RouteSubscriptionNotifier** was also used in the mutation resolver ``RootMutationResolver`` to send an event to the client when creating a route.
 
+## Test 
+
+Add a method to test **query all routes**. 
+
+```  
+@Test
+public void assertThatRoutesWorks() throws IOException { 
+    GraphQLResponse response  = graphQLTestTemplate.postForResource("routes.graphql");
+    assertNotNull(response);
+    assertTrue(response.isOk());
+    assertEquals("101", response.get("$.data.routes[0].id"));
+}
+```
+
+Add a file named ``routes.graphql`` which has the correct test query.
+
+
+```  
+query {
+  routes {
+    id
+    flightNumber
+  }
+}
+```
+
+
 
 ## Add Directive 
 
@@ -258,5 +291,4 @@ You have only to configure which type you want to use.
 graphql:
   extended-scalars: Date
 ```
-
 

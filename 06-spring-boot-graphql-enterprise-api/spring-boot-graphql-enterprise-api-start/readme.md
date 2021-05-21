@@ -3,19 +3,8 @@
 
 ## Add Validation 
 
-### Based on Extended Validation 
-First we have to add the **Extended Validation**. 
+The validation is already defined in the schema 
 
-```  
-<dependency>
-	<groupId>com.graphql-java</groupId>
-	<artifactId>graphql-java-extended-validation</artifactId>
-	<version>16.0.0</version>
-</dependency>
-
-```
-
-Next add the validation **Directive** Definition to the Schema.
 
 ```  
 directive @Size(min : Int = 0, max : Int = 2147483647, message : String = "graphql.validation.Size.message")
@@ -30,6 +19,33 @@ And at least the validation itself.
 route(flightNumber: String! @Size( min : 6, max : 6 )): Route
 
 ```
+
+To support the directives first add the **Extended Validation** libraries. 
+
+```  
+<dependency>
+	<groupId>com.graphql-java</groupId>
+	<artifactId>graphql-java-extended-validation</artifactId>
+	<version>16.0.0</version>
+</dependency>
+
+```
+
+Register the validation Directives 
+
+```
+@Bean
+	public ValidationSchemaWiring validationRules() {
+
+		ValidationRules validationRules = ValidationRules.newValidationRules()
+								 .onValidationErrorStrategy(OnValidationErrorStrategy.RETURN_NULL).build();
+	
+		return new ValidationSchemaWiring(validationRules);
+
+	}
+```
+
+Test the validation!! 
                      
 
 ## Exceptions  
@@ -82,68 +98,49 @@ Implements a ``@ExceptionHandler`` method in our ``RootQueryResolver`` resolver 
 	}
 
 ```
-## Test 
 
-Add a method to test **query all routes**. 
+## Context
 
-```  
-@Test
-public void assertThatRoutesWorks() throws IOException { 
-    GraphQLResponse response  = graphQLTestTemplate.postForResource("routes.graphql");
-    assertNotNull(response);
-    assertTrue(response.isOk());
-    assertEquals("101", response.get("$.data.routes[0].id"));
+### Custom Context 
+
+The Context Classes `CustomGraphQLServletContextBuilder` and `CustomGraphQLServletContext`` are already exists. 
+
+
+### Configuration 
+
+Create a instance over the Spring Boot Configuration. 
+
+```
+@Configuration
+public class GraphQLConfiguration {
+
+	@Bean
+	public CustomGraphQLServletContextBuilder customGraphQLServletContextBuilder() {
+		return new CustomGraphQLServletContextBuilder();
+	}
+	
 }
+
 ```
 
-Add a file named ``routes.graphql`` which has the correct test query.
+### Using the Context 
 
+```
+public List<Route> routes(int page, int size, DataFetchingEnvironment dataFetchingEnvironment)  {
+			
+		CustomGraphQLServletContext customGraphQLServletContext = (CustomGraphQLServletContext) dataFetchingEnvironment.getContext();
+		log.info("Custom Context: " + customGraphQLServletContext.getUserId());
+	
+		Pageable pageable = PageRequest.of(page, size);
 
-```  
-query {
-  routes {
-    id
-    flightNumber
-  }
-}
+		Page<Route> pageResult = routeRepository.findAll(pageable);
+		return pageResult.toList();
+		
+	}
+
 ```
 
 ## Security 
-
-### Basic Authentication 
- 
-Check Spring Boot Security Dependency.  
-
-```  
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-security</artifactId>
-	</dependency>
-```
-
-Check the Basic Authentication ``GraphQLBasicWebSecurityConfiguration`` configuration. 
-
-To Enable the Security Configuration set the profile ``security`` and ``basic``. 
-
-```  
-spring: 
-   profiles:
-    active:
-    - security
-    - basic   	
-```
-
-Test the GraphQL API over Playground with a security header ( see header.md).  
-
-```  
-{
-	"Authorization": "Basic dXNlcjpwYXNzd29yZA=="
-}  	
-```
-
-To authorize you can add a @PreAuthorized method on each method for example ``@PreAuthorize("hasRole('read')")`` 
-with using the Security SPEL.  
-
 
 
 ### OAuth 2 / JWT 
@@ -177,5 +174,14 @@ Test the GraphQL API over Playground with a security header ( see header.md).
 To authorize you can add a @PreAuthorized method on each method for example ``@PreAuthorize("hasRole('read')")`` 
 with using the Security SPEL.  
 
+### Add the DDOS Features 
 
+```  
+servlet:
+    maxQueryDepth: 100
+    maxQueryComplexity: 100
+    async-timeout: 5000
 
+```
+
+Make some test, to test the features. 

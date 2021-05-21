@@ -2,7 +2,7 @@
 
 ## Add Spring Boot Web Starter 
 
-Add Spring Boot Web Support based on **Servlet** technology.
+Add Spring Boot Web Support based to provide **Servlet Features** technology.
 
 ``` 
 <dependency>
@@ -21,7 +21,7 @@ Add GraphQL **HTTP** Endpoint based on **Java EE Servlet** technology.
 <dependency>
 	<groupId>com.graphql-java-kickstart</groupId>
 	<artifactId>graphql-spring-boot-starter</artifactId>
-	<version>11.0.0</version>
+	<version>11.1.0</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ Add GrapQHL **Schema**-Support.
 <dependency>
 	<groupId>com.graphql-java-kickstart</groupId>
 	<artifactId>playground-spring-boot-starter</artifactId>
-	<version>11.0.0</version>
+	<version>11.1.0</version>
 </dependency>
 ```
  
@@ -47,7 +47,7 @@ Add **Plaground IDE** to work with GraphQL Queries on the GraphQL Backend.
 <dependency>
 	<groupId>com.graphql-java-kickstart</groupId>
 	<artifactId>playground-spring-boot-starter</artifactId>
-	<version>11.0.0</version>
+	<version>11.1.0</version>
 </dependency>
 ```
 
@@ -63,10 +63,6 @@ graphql:
     mapping: /graphql
   playground:
     enabled: true
-          
-## Port Configuration 
-server:
-  port: 4000
 ```
 
 
@@ -84,5 +80,40 @@ Start Playground an test the Application with the **Hello World** query.
 ```
 query {helloWorld}
 ```
+
+It is also possible to execute the query via CURL. 
+
+```
+curl -X POST 'http://localhost:4000/graphql' -H 'Content-Type: application/json' -d '{"query":"{routes{id}}"}'
+```
+
+
+## Automated Tests
+
+Add a method to test **query all routes**. 
+
+```  
+@Test
+public void assertThatRoutesWorks() throws IOException { 
+    GraphQLResponse response  = graphQLTestTemplate.postForResource("routes.graphql");
+    assertNotNull(response);
+    assertTrue(response.isOk());
+    assertEquals("101", response.get("$.data.routes[0].id"));
+}
+```
+
+Add a file named ``routes.graphql`` which has the correct test query.
+
+
+```  
+query {
+  routes {
+    id
+    flightNumber
+  }
+}
+```
+
+
 
 

@@ -1,11 +1,14 @@
 # GraphQL Tools and Servlet Configuration  
 graphql:
   tools:
-    schemaLocationPattern: "**/*.graphql"
+    schema-location-pattern: "**/*.graphql"
+    introspection-enabled: true
   servlet:
-    mapping: /graphql
     enabled: true
-    
+    mapping: /graphql
+  playground:
+    enabled: true
+  
 ## H2 & Data Source Configuration 
 spring: 
   h2:
