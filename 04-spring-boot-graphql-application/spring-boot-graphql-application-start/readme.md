@@ -32,7 +32,7 @@ Add GrapQHL **Schema**-Support.
 ``` 
 <dependency>
 	<groupId>com.graphql-java-kickstart</groupId>
-	<artifactId>playground-spring-boot-starter</artifactId>
+	<artifactId>graphql-kickstart-spring-boot-starter-tools</artifactId>
 	<version>11.1.0</version>
 </dependency>
 ```

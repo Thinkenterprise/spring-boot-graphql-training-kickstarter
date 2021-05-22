@@ -32,7 +32,7 @@ Add GrapQHL **Schema**-Support.
 ``` 
 <dependency>
 	<groupId>com.graphql-java-kickstart</groupId>
-	<artifactId>playground-spring-boot-starter</artifactId>
+	<artifactId>graphql-kickstart-spring-boot-starter-tools</artifactId>
 	<version>11.1.0</version>
 </dependency>
 ```
@@ -86,34 +86,5 @@ It is also possible to execute the query via CURL.
 ```
 curl -X POST 'http://localhost:4000/graphql' -H 'Content-Type: application/json' -d '{"query":"{routes{id}}"}'
 ```
-
-
-## Automated Tests
-
-Add a method to test **query all routes**. 
-
-```  
-@Test
-public void assertThatRoutesWorks() throws IOException { 
-    GraphQLResponse response  = graphQLTestTemplate.postForResource("routes.graphql");
-    assertNotNull(response);
-    assertTrue(response.isOk());
-    assertEquals("101", response.get("$.data.routes[0].id"));
-}
-```
-
-Add a file named ``routes.graphql`` which has the correct test query.
-
-
-```  
-query {
-  routes {
-    id
-    flightNumber
-  }
-}
-```
-
-
 
 
