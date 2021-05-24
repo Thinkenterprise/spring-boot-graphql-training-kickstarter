@@ -1,0 +1,23 @@
+query {
+  route(flightNumber: "LH7902") {
+    id
+    flightNumber
+    isDisabled
+  }
+}
+
+query {
+  routes {
+    id
+  }
+}
+
+
+
+
+
+
+
+
+
+

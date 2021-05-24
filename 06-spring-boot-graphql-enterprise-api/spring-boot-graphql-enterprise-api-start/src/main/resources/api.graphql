@@ -3,7 +3,7 @@ directive @uppercase on FIELD_DEFINITION
 directive @Size(min : Int = 0, max : Int = 2147483647, message : String = "graphql.validation.Size.message")
                         on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 
-scalar LocalDate
+scalar Date
 
 schema {
 	query: Query
@@ -50,7 +50,7 @@ type Flight {
 	price: Float!
 	route: Route!
 	discount: Float!
-	date: LocalDate!
+	date: Date!
 	employees: [Employee!]
 }
 

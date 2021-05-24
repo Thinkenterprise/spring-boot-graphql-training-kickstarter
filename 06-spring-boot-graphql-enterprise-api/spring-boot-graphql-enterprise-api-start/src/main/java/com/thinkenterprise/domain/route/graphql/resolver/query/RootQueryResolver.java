@@ -51,11 +51,8 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 
 	}
 
-	public List<Route> routes(int page, int size, DataFetchingEnvironment dataFetchingEnvironment)  {
+	public List<Route> routes(int page, int size)  {
 			
-		CustomGraphQLServletContext customGraphQLServletContext = (CustomGraphQLServletContext) dataFetchingEnvironment.getContext();
-		log.info("Custom Context: " + customGraphQLServletContext.getUserId());
-	
 		Pageable pageable = PageRequest.of(page, size);
 
 		Page<Route> pageResult = routeRepository.findAll(pageable);
