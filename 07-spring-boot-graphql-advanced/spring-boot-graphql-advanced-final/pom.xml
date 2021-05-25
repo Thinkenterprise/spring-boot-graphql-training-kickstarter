@@ -67,32 +67,25 @@
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-spring-boot-starter</artifactId>
-			<version>11.0.0</version>
+			<version>11.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-kickstart-spring-boot-starter-tools</artifactId>
-			<version>11.0.0</version>
+			<version>11.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>playground-spring-boot-starter</artifactId>
-			<version>11.0.0</version>
+			<version>11.1.0</version>
 		</dependency>
 
 		<!-- Testing GraphQL API (Add for Enterprise API Exercise) -->
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-spring-boot-starter-test</artifactId>
-			<version>11.0.0</version>
+			<version>11.1.0</version>
 			<scope>test</scope>
-		</dependency>
-
-		<!-- Additional ISO 8601, 3339 complaint scalar type (Add for API Exercise) -->
-		<dependency>
-			<groupId>com.zhokhov.graphql</groupId>
-			<artifactId>graphql-datetime-spring-boot-starter</artifactId>
-			<version>4.0.0</version>
 		</dependency>
 
 		<!-- Reactive Stream Implementation of Spring Project Reactor. Necessary 

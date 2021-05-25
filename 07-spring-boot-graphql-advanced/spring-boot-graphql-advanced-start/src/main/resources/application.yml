@@ -1,5 +1,6 @@
 # GraphQL Tools and Servlet Configuration  
 graphql:
+  extended-scalars: Date
   tools:
     schemaLocationPattern: "**/*.graphql"
   servlet:

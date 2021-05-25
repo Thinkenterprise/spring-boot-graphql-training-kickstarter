@@ -1,8 +1,6 @@
 # GraphQL Advanced API 
 
-## Performance 
-
-### Metrics  
+## Metrics  
 
 Enable Metrics to monitor the Performance of your GraphQL API.
 
@@ -15,14 +13,8 @@ Add the **Actuator** Dependency.
 </dependency>
 ```
 
-Add property to the Spring Boot Property file. 
 
-```  
-servlet:
-   actuator-metrics: true
-```
-
-Check the enableing of the Spring Boot Actuator **Endpoints**.
+Check the enabling of the Spring Boot Actuator **Endpoints**.
 
 ```  
 ## Actuator  
@@ -34,36 +26,28 @@ management:
         include: "*"
 ```
 
+
+Activate the GraphQL Actuator Metrics over the ``actuator-metrics`` property in the Spring Boot Property file. 
+
+```  
+servlet:
+   actuator-metrics: true
+```
+
+
 If you execute a query you can see timing informations under the **metrics endpoint** ``/metrics``.  
 **Attention: The metric is only created when a first GraphQL call is made!!**
+The best IDE to check the actuator endpoint is postman or Mozilla Browser, because of the Hypermedia and JSON representation. 
+
+
+```  
+http://localhost:4000/actuator/metrics
+```
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Asynchronous Calls 
-Change the implementation of the synchronous call to a asynchronous cal. 
+## Asynchronous Calls 
+Change the implementation of the synchronous call to a asynchronous call. 
 
 ```
 @PreAuthorize("hasAuthority('SCOPE_read')")
@@ -72,8 +56,8 @@ Change the implementation of the synchronous call to a asynchronous cal.
 	}
 ```
 
-### Data Loader 
-#### Add Data Loader 
+## Data Loader 
+
 
 Create your own **Batch Loader** which load a batch of discounts over the **Discount Service** in the package ``com.thinkenterprise.graphql.data``. 
 
@@ -98,9 +82,7 @@ public class DiscountBatchLoader implements BatchLoader<Long, Float>{
 }
 ```
 
-#### Provide your Batch Loader 
-
-Add the following implementation in our existing ``CustomGraphQLServletContextBuilder``.
+Provide your Batch Loader over the ``CustomGraphQLServletContextBuilder``. Add the following implementation in our existing ``CustomGraphQLServletContextBuilder``.
 
 ```
 public class CustomGraphQLServletContextBuilder implements GraphQLServletContextBuilder {
@@ -131,34 +113,28 @@ public class CustomGraphQLServletContextBuilder implements GraphQLServletContext
 
 ```
 
-#### Register the Batch Loader Ids 
-
-Make the following changes in the existing ``FlightQueryResolver``. 
+Register the FLight Ids for the discount access in the Batch loader. Make the following changes in the existing ``FlightQueryResolver``. 
 
 ```
 @Component
 public class FlightQueryResolver implements GraphQLResolver<Flight> {
 
 	
-      public CompletableFuture<Float> discount(Flight flight, DataFetchingEnvironment dataFetchingEnvironment) {
-
-		DataLoader<Long, Float> discoutDataLoader = dataFetchingEnvironment.getDataLoader("discount");
-		return discoutDataLoader.load(flight.getId());
-	}
+     CustomGraphQLServletContext customGraphQLServletContext = (CustomGraphQLServletContext) dataFetchingEnvironment.getContext();
+    	DataLoader<Long, Float> discoutDataLoader = customGraphQLServletContext.getDataLoaderRegistry().getDataLoader("discount");
+	return discoutDataLoader.load(flight.getId());
     
 ```
 
-### Cache 
+## Cache 
 
 Each Data Loader has its own standard in memory cache and reads the data from this cache.
 For each web request a Data Loader instance will be created. So that the cache lives only for the time of a web request. 
 It is possible to change the default in memory cache with a global Cache, Redis for example. 
 
-#### Implement your own Redis cache
+Implement your own Redis cache. There is already a finished implementation to be found under the package ``com.thinkenterprise.graphql.cache``. 
+It is a simple spring bean with singleton scope and a map as cache store.  
 
-There is already a finished implementation to be found under the package ``com.thinkenterprise.graphql.cache``
-
-#### Configure the new cache
  
 ```
 public DataLoaderRegistry createDataLoaderRegisty() {
@@ -169,86 +145,5 @@ public DataLoaderRegistry createDataLoaderRegisty() {
 	}
 ```
 
-#### Test Cache  
-Execute a web request for two time. The second web request should use the cached value. 
-
-
-
-
-## DDOS 
-
-GraphQL offers two concepts to protect the GraphQL interface from DDOS attacks. 
-
-
-
-
-### Query Depth 
-
-Set the **Query Depth** over the Spring Boot Application Properties. 
-
-```
- servlet:
-    maxQueryDepth: 3
-```
-
-Close Playground because the IDE polls the schema with introspection queries which longer then 13. 
-You can test it over CURL. The Script is saved in the Script max-query-depth.sh
-
-3 works 2 not!! 
-
-
-After the test, set the property to 100. 
-
-[Kickstart Issue 612](https://github.com/graphql-java-kickstart/graphql-spring-boot/issues/569)
-[Kickstart Issue 612](https://github.com/graphql-java-kickstart/graphql-spring-boot/discussions/609)
-[Kickstart Issue 612](https://github.com/graphql-java-kickstart/graphql-spring-boot/issues/612)
-[Kickstart Issue 611](https://github.com/graphql-java-kickstart/graphql-spring-boot/issues/611)
-
-
-
-
-### Query Complexity  
-
-
-Set the **Query Depth** over the Spring Boot Application Properties. 
-
-```
- servlet:
-    maxQueryComplexity: 8
-```
- 
-Close Playground because the IDE polls the schema with introspection queries which longer then 13. 
-You can test it over CURL. The Script is saved in the Script max-query-complexity.sh
-
-8 works 7 not!!
-
-After the test, set the property to 100. 
-
-[Kickstart Issue 278](https://github.com/graphql-java-kickstart/graphql-spring-boot/issues/278)
-
-
-## Tracing & Metrics 
-
-
-### Tracing 
-
-Add property to the Spring Boot Property file.
-
-```
-tracingEnabled: true
-```
-
-If the Property is true the ``TracingInstrumentation`` will be enabled. 
-
-Open the **Setting Panel** in Playground and enable the tracing information. 
-
-```
-"tracing.hideTracingResponse": false
-```
-
-If you execute a query you can see timing informations now. 
-
-
-
-
+Test Cache. Execute a web request for two time. The second web request should use the cached value and reduce the time.  
 

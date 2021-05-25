@@ -49,12 +49,12 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 
 	
 	@PreAuthorize("hasAuthority('SCOPE_read')")
-	public CompletableFuture<Optional<Route>> route(String flightNumber) {
-		return CompletableFuture.supplyAsync(() ->  routeRepository.findByFlightNumber(flightNumber)); 
+	public Optional<Route> route(String flightNumber) {
+		return routeRepository.findByFlightNumber(flightNumber); 
 		                                           
 	}
 	
-	public CompletableFuture<List<Route>> routes(int page, int size, DataFetchingEnvironment dataFetchingEnvironment) throws InterruptedException  {
+	public List<Route> routes(int page, int size, DataFetchingEnvironment dataFetchingEnvironment) throws InterruptedException  {
 		
 		CustomGraphQLServletContext customGraphQLServletContext = (CustomGraphQLServletContext) dataFetchingEnvironment.getContext();
 		log.info("Custom Context: " + customGraphQLServletContext.getUserId());
@@ -63,7 +63,7 @@ public class RootQueryResolver implements GraphQLQueryResolver {
 
 		Page<Route> pageResult = routeRepository.findAll(pageable);
 		
-		return CompletableFuture.supplyAsync(() ->  pageResult.toList()); 	
+		return pageResult.toList(); 	
 	}
 	
 	@ExceptionHandler(value = RouteNotFoundException.class)

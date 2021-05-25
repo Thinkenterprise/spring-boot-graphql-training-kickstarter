@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import graphql.kickstart.execution.context.GraphQLContext;
 import graphql.kickstart.servlet.context.DefaultGraphQLServletContext;
+import graphql.kickstart.servlet.context.DefaultGraphQLWebSocketContext;
 import graphql.kickstart.servlet.context.GraphQLServletContextBuilder;
 
 /**  
@@ -49,7 +50,9 @@ public class CustomGraphQLServletContextBuilder implements GraphQLServletContext
 
 	@Override
 	public GraphQLContext build(Session session, HandshakeRequest handshakeRequest) {
-		throw new IllegalStateException("Unsupported Web Socket build method called in CustomGraphQLServletContextBuilder");
+		return DefaultGraphQLWebSocketContext.createWebSocketContext().with(handshakeRequest)
+				  .with(session)
+				  .build();
 	}
 	
 	@Override
